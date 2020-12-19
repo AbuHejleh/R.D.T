@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity">
+    tools:context=".LoginActivity">
 
     <include
         android:id="@+id/toolbar"
         layout="@layout/bar_layout" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,20 +23,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Creat A New Account"
+            android:text="LOGIN"
             android:textSize="20dp"
             android:textStyle="bold" />
 
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/UserName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:hint="User Name"
-            android:drawableLeft="@drawable/user_image"
-
-            app:met_floatingLabel="normal" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/Email"
@@ -45,7 +37,15 @@
             android:hint="Email"
             android:inputType="textEmailAddress"
             android:drawableLeft="@drawable/email_image"
-            app:met_floatingLabel="normal" />
+            android:textStyle="italic"
+           
+
+
+
+
+
+            app:met_floatingLabel="normal"
+           />
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/Password"
@@ -55,18 +55,21 @@
             android:hint="Password"
             android:inputType="textPassword"
             app:met_floatingLabel="normal"
+            android:textStyle="italic"
+            android:textColor="@android:color/holo_blue_bright"
+
             android:drawableLeft="@drawable/password_image"/>
 
         <Button
-            android:id="@+id/btn_Register"
-            android:layout_width="388dp"
+            android:id="@+id/btn_Login"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@color/colorPrimaryDark"
-            android:text="Register"
+            android:text="Sign in"
             android:textColor="#fff" />
 
-    </LinearLayout>
 
+    </LinearLayout>
 
 </RelativeLayout>
