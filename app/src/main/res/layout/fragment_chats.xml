@@ -6,9 +6,9 @@
     android:background="#8080"
     tools:context=".Fragments.ChatsFragment">
 
-   <TextView
+   <androidx.recyclerview.widget.RecyclerView
        android:layout_width="match_parent"
        android:layout_height="match_parent"
-       android:text="this is me"/>
+       android:id="@+id/chat_recycler_view"/>
 
 </FrameLayout>
