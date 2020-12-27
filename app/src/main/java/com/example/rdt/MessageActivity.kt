@@ -35,6 +35,7 @@ class MessageActivity : AppCompatActivity() {
 
     lateinit var fbUser: FirebaseUser
     lateinit var dbReference: DatabaseReference
+    lateinit var userid: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("extra", " in it")
@@ -70,7 +71,7 @@ class MessageActivity : AppCompatActivity() {
 
 
         intent = getIntent()
-        var userid: String = intent.getStringExtra("userid")!!
+         userid = intent.getStringExtra("userid")!!
         Log.d("extra", userid)
         fbUser = FirebaseAuth.getInstance().currentUser!!
         Log.d("extra", " the fb users  : ${fbUser}")
@@ -119,7 +120,7 @@ class MessageActivity : AppCompatActivity() {
 
                 }
 
-                Log.d("finding", "before the read message method")
+                Log.d("sending", "before the read message method")
                 readMessages(fbUser.uid,userid, user.getImageURl().toString())
 
 
@@ -142,6 +143,26 @@ class MessageActivity : AppCompatActivity() {
         hashmap.put("receiver", receiver)
         hashmap.put("message", message)
         ref.child("Chats").push().setValue(hashmap)
+        var chatRef :DatabaseReference =FirebaseDatabase.getInstance().getReference("ChatList")
+            .child(fbUser.uid).child(userid)
+        Log.d("sending","before the listener ")
+        val listener = object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+            if (!snapshot.exists()){
+                Log.d("sending","done with the exist ")
+                chatRef.child("id").setValue(userid)
+
+            }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        }
+        chatRef.addListenerForSingleValueEvent(listener)
+
 
 
     }
