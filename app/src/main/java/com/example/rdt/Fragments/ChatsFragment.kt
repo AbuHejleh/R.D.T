@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.rdt.MainActivity
 import com.example.rdt.Needed.Chatlist
 import com.example.rdt.Needed.User
 import com.example.rdt.R
@@ -58,6 +60,7 @@ lateinit var recyclerView : RecyclerView
 
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
+                Toast.makeText(context,"$error", Toast.LENGTH_SHORT).show()
             }
 
         }
@@ -91,7 +94,8 @@ lateinit var recyclerView : RecyclerView
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                Toast.makeText(context,"$error", Toast.LENGTH_SHORT).show()
+
             }
         }
         dbRef.addValueEventListener(listen)

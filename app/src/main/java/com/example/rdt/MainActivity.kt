@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.bumptech.glide.Glide
 import com.example.rdt.Fragments.ChatsFragment
+import com.example.rdt.Fragments.ProfileFragment
 import com.example.rdt.Fragments.UsersFragment
 import com.example.rdt.Needed.User
 import com.google.firebase.auth.FirebaseAuth
@@ -107,17 +108,18 @@ class MainActivity : AppCompatActivity() {
 
         try {
             var viewPagerAdapter = MyviewPagerAdapter(supportFragmentManager)
-            Log.d("xx", "done with the supportFragmentManager ")
+
 
             viewPagerAdapter.addFragments(ChatsFragment(), "Chats")
-            Log.d("xx", "done with the CHATS FRAGMENT ")
+
 
             viewPagerAdapter.addFragments(UsersFragment(), "Users")
-            Log.d("xx", "done with the USERS FRAGMENT ")
+            viewPagerAdapter.addFragments(ProfileFragment(), "Profile")
+
 
 
             view_pager.adapter = viewPagerAdapter
-            Log.d("xx", "done with the ADAPTER")
+
             tab_layout.setupWithViewPager(view_pager)
             Log.d("xx", "done with the setup")
 

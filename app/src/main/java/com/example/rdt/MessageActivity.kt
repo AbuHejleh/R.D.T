@@ -128,6 +128,7 @@ class MessageActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@MessageActivity,"$error", Toast.LENGTH_SHORT).show()
 
             }
         }
@@ -158,6 +159,7 @@ class MessageActivity : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
+                Toast.makeText(this@MessageActivity,"$error", Toast.LENGTH_SHORT).show()
             }
 
         }
