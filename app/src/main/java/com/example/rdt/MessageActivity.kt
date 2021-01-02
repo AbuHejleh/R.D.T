@@ -48,7 +48,7 @@ class MessageActivity : AppCompatActivity() {
 
 
         setSupportActionBar(toolbar)
-        supportActionBar?.setTitle("")
+        supportActionBar?.title = ""
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {

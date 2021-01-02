@@ -57,10 +57,10 @@ class MessageAdapter: RecyclerView.Adapter<MessageAdapter.ViewHolder> {
         Log.d("finding " , "in before the image test ")
         if (imagurl.equals("default")){
             holder.profile_image.setImageResource(R.mipmap.ic_launcher)
-            Log.d("finding " , " default image ")
+            Log.d("pic " , " default ")
         }else{
             Glide.with(mContext).load(imagurl).into(holder.profile_image)
-            Log.d("finding " , "the saved image ")
+            Log.d("pic " , " updated ")
         }
 
 

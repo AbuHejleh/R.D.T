@@ -24,7 +24,7 @@ class LoginActivity : AppCompatActivity() {
 
         val tool  : Toolbar = findViewById(toolbar.id)
         setSupportActionBar(tool)
-        supportActionBar?.setTitle("LOGIN")
+        supportActionBar?.title = "LOGIN"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         auth = FirebaseAuth.getInstance()
 
