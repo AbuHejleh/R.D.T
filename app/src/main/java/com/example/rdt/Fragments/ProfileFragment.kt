@@ -128,7 +128,7 @@ class ProfileFragment : Fragment() {
                     var mUri: String = downloadUri.toString()
                     reference = FirebaseDatabase.getInstance().getReference("Users").child(fbUser.uid)
                     val hashMap: HashMap<String, Any> = HashMap()
-                    hashMap["imageURL"] = mUri
+                    hashMap.put("imageURl" , mUri)
                     reference.updateChildren(hashMap)
                     dialog.dismiss()
                 } else {

@@ -81,8 +81,10 @@ class UsersFragment : Fragment() {
 
                     }
                 }
-                userAdapter = UserAdapter(context!!,mUser)
-                recyclerView.adapter=userAdapter
+              if (context != null){
+                  userAdapter = UserAdapter(context!!, mUser)
+
+                  recyclerView.adapter = userAdapter}
 
             }
 

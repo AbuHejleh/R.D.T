@@ -88,9 +88,11 @@ lateinit var recyclerView : RecyclerView
 
                 }
                 }
+                if (context != null){
 
             userAdapter = UserAdapter(context!! , mUser)
                 recyclerView.adapter = userAdapter
+            }
             }
 
             override fun onCancelled(error: DatabaseError) {
