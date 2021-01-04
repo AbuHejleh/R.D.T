@@ -70,6 +70,8 @@ class RegisterActivity : AppCompatActivity() {
                         hashMap.put("id", userid)
                         hashMap.put("username", username)
                         hashMap.put("imageURl", "default")
+                        hashMap.put("status", "offline")
+
                         referance.setValue(hashMap)
                             .addOnCompleteListener(OnCompleteListener { task ->
                                 if (it.isSuccessful) {

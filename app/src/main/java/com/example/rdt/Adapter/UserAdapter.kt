@@ -16,19 +16,26 @@ import com.example.rdt.Needed.User
 import com.example.rdt.R
 
 class UserAdapter : RecyclerView.Adapter<UserAdapter.ViewHolder> {
-    private  var mContext: Context
-    private  var mUsers: List<User>
+    private var mContext: Context
+    private var mUsers: List<User>
+    private var is_Active: Boolean
 
-    constructor(mContext: Context, mUsers: List<User>) {
-        Log.d("xx" , "in the adapter constructor")
+
+    constructor(mContext: Context, mUsers: List<User>, active: Boolean) {
+        Log.d("xx", "in the adapter constructor")
         this.mUsers = mUsers
         this.mContext = mContext
+        is_Active = active
 
     }
 
     public class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var status_on: ImageView = itemView.findViewById(R.id.status_on)
+        var status_off: ImageView = itemView.findViewById(R.id.status_off)
+
         var user_name: TextView = itemView.findViewById(R.id.my_username)
         var profile_image: ImageView = itemView.findViewById(R.id.my_profile_image)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -38,18 +45,30 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = mUsers.get(position)
-        Log.d("xxx","${user?.getImageURl()}")
-        holder.user_name.text= user.getUserName()
-        if (user?.getImageURl().equals("default")){
+        Log.d("xxx", "${user?.getImageURl()}")
+        holder.user_name.text = user.getUserName()
+        if (user?.getImageURl().equals("default")) {
             holder.profile_image.setImageResource(R.mipmap.ic_launcher)
 
 
-        }else{
+        } else {
             Glide.with(mContext).load(user.getImageURl()).into(holder.profile_image)
+            if (is_Active) {
+                if (user.getStatus().equals("online")) {
+                    holder.status_on.visibility = View.VISIBLE
+                    holder.status_off.visibility = View.GONE
+                } else {
+                    holder.status_on.visibility = View.GONE
+                    holder.status_off.visibility = View.VISIBLE
+
+                }
+            }else{ holder.status_on.visibility = View.GONE
+                holder.status_off.visibility = View.GONE}
+
 
         }
         holder.itemView.setOnClickListener { it ->
-            var intent = Intent(mContext, MessageActivity::class.java)
+            val intent = Intent(mContext, MessageActivity::class.java)
             intent.putExtra("userid", user.getId())
             mContext.startActivity(intent)
 

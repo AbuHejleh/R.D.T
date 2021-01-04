@@ -52,7 +52,8 @@ class MessageActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                finish()
+               startActivity(Intent(this@MessageActivity ,MainActivity::class.java ).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+//                finish()
             }
 
 
@@ -71,11 +72,12 @@ class MessageActivity : AppCompatActivity() {
 
 
         intent = getIntent()
+        if (intent.getStringExtra("userid")!! != null){
          userid = intent.getStringExtra("userid")!!
         Log.d("extra", userid)
         fbUser = FirebaseAuth.getInstance().currentUser!!
         Log.d("extra", " the fb users  : ${fbUser}")
-        dbReference = FirebaseDatabase.getInstance().getReference("Users").child(userid)
+        dbReference = FirebaseDatabase.getInstance().getReference("Users").child(userid)}
 
 
         send_btn.setOnClickListener {
@@ -114,7 +116,7 @@ class MessageActivity : AppCompatActivity() {
 
                 } else {
 
-                    Glide.with(this@MessageActivity).load(user.getImageURl())
+                    Glide.with(applicationContext).load(user.getImageURl())
                         .into(message_profile_image)
 
 
@@ -205,6 +207,25 @@ class MessageActivity : AppCompatActivity() {
 
 
     }
+    private fun status(status :String){
+        var ref =FirebaseDatabase.getInstance().getReference("Users").child(fbUser.uid)
+        var hashMap :HashMap<String, Any> =  HashMap()
+        hashMap.put("status" , status)
+        ref.updateChildren(hashMap)
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        status("online")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        status("offline")
+    }
+
 
 
 }

@@ -90,7 +90,7 @@ lateinit var recyclerView : RecyclerView
                 }
                 if (context != null){
 
-            userAdapter = UserAdapter(context!! , mUser)
+            userAdapter = UserAdapter(context!! , mUser ,true)
                 recyclerView.adapter = userAdapter
             }
             }

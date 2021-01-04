@@ -63,9 +63,10 @@ class ProfileFragment : Fragment() {
                     imageProfile.setImageResource(R.mipmap.ic_launcher)
                 Log.d("pic", "default")
                 } else {
-                    Glide.with(context!!).load(user.getImageURl()).into(imageProfile)
-                    Log.d("pic", "updated")
-
+                    if (context != null) {
+                        Glide.with(context!!).load(user.getImageURl()).into(imageProfile)
+                        Log.d("pic", "updated")
+                    }
 
                 }
 

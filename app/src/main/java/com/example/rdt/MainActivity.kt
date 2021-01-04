@@ -17,15 +17,20 @@ import com.example.rdt.Fragments.ProfileFragment
 import com.example.rdt.Fragments.UsersFragment
 import com.example.rdt.Needed.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 import kotlin.math.log
 
 
 class MainActivity : AppCompatActivity() {
+
+    private val firebaseuser:FirebaseUser = FirebaseAuth.getInstance().currentUser!!
+   private val refrance = FirebaseDatabase.getInstance().getReference("Users").child(firebaseuser.uid)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -39,8 +44,7 @@ class MainActivity : AppCompatActivity() {
         var circleImage: CircleImageView
 
 
-        val firebaseuser = FirebaseAuth.getInstance().currentUser!!
-        val refrance = FirebaseDatabase.getInstance().getReference("Users").child(firebaseuser.uid)
+
 
 
         //    Log.e("rer", "${refrance.key}")
@@ -71,7 +75,7 @@ class MainActivity : AppCompatActivity() {
 //                    "${user?.setImageURl(ss.child("imageURL").value.toString())} " + "this"
 //                )
 //                Log.e("TESTING", "${user?.getImageURl()} " + "this")
-//                if (user != null) {
+//                if (username.text != null) {
 
 
                     username.text = user?.getUserName().toString()
@@ -88,7 +92,7 @@ class MainActivity : AppCompatActivity() {
 
                 } else {
 
-                    Glide.with(this@MainActivity).load(user?.getImageURl()).into(profile_image)
+                    Glide.with(applicationContext).load(user?.getImageURl()).into(profile_image)
 
 
                 }
@@ -141,8 +145,10 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.logout -> {
                 FirebaseAuth.getInstance().signOut()
-                startActivity(Intent(this, StartActivity::class.java))
-                finish()
+                startActivity(Intent(this, StartActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+//                startActivity(Intent(this, StartActivity::class.java))
+//                finish()
+
                 return true
             }
         }
@@ -188,13 +194,14 @@ class MainActivity : AppCompatActivity() {
 //        startActivity(Intent(this, StartActivity::class.java))
 //        finish()
 
-}
-internal class MyviewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+
+class MyviewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
 
-    private val fragments : ArrayList<Fragment>
-    private val titles : ArrayList<String>
-    init{
+    private val fragments: ArrayList<Fragment>
+    private val titles: ArrayList<String>
+
+    init {
         fragments = ArrayList<Fragment>()
         titles = ArrayList<String>()
     }
@@ -219,9 +226,45 @@ internal class MyviewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm
     }
 
 
+}
+    private fun status(status :String){
+        val ref =FirebaseDatabase.getInstance().getReference("Users").child(firebaseuser.uid)
+        val hashMap :HashMap<String, Any> =  HashMap()
+        hashMap.put("status" , status)
+        ref.updateChildren(hashMap)
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        status("online")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        status("offline")
+    }
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

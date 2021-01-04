@@ -1,16 +1,18 @@
 package com.example.rdt.Needed
 
  class User {
-     private lateinit var id :String
+     private  var id :String? = null
 
-     private lateinit var username : String
-     private var imageURl : String? = null
+     private  var username : String? = null
+     private lateinit var imageURl : String
+     private  lateinit var status :String
 
 
-     constructor(id: String , username: String , imageURl: String ) {
-        this.id = id
-        this.username = username
-        this.imageURl = imageURl
+     constructor(id: String , username: String , imageURl: String , status:String ) {
+         this.id = id
+         this.username = username
+         this.imageURl = imageURl
+         this.status= status
 
     }
     constructor(){}
@@ -39,6 +41,14 @@ package com.example.rdt.Needed
     public  fun  getImageURl(): String? {
         return imageURl
     }
+
+     public fun setStatus(status : String) {
+         this.status = status
+
+     }
+     public  fun  getStatus(): String? {
+         return status
+     }
 
 
 
