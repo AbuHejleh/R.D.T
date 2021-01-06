@@ -79,7 +79,7 @@ class RegisterActivity : AppCompatActivity() {
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                                     Toast.makeText(this , " You Did it !!" , Toast.LENGTH_SHORT ).show()
                                     startActivity(intent)
-                                    finishActivity(this.taskId)
+                                    finish()
                                 } else {
                                     Toast.makeText(
                                         this,

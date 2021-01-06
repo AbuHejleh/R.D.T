@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import com.google.android.gms.tasks.Task
@@ -16,17 +17,32 @@ import kotlinx.android.synthetic.main.activity_register.Email
 import kotlinx.android.synthetic.main.activity_register.Password
 import kotlinx.android.synthetic.main.activity_register.toolbar
 
+
 class LoginActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        val tool  : Toolbar = findViewById(toolbar.id)
+
+
+
+
+        val tool  : Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(tool)
         supportActionBar?.title = "LOGIN"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         auth = FirebaseAuth.getInstance()
+
+
+        forgot_password.setOnClickListener {
+            Toast.makeText(this, "U clicked it", Toast.LENGTH_SHORT).show()
+            val move = Intent(this, Reset_Activity::class.java)
+            startActivity(move)
+
+
+        }
 
         btn_Login.setOnClickListener {
             Toast.makeText(this , "it is in " , Toast.LENGTH_SHORT).show()
@@ -43,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
                             var intent = Intent(this, MainActivity::class.java)
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                             startActivity(intent)
-                            finishActivity(this.taskId)
+                            finish()
 
                              }else{
                             Toast.makeText(
@@ -59,5 +75,10 @@ class LoginActivity : AppCompatActivity() {
             oncomplete()}
         }
 
+
+
+
     }
+
+
 }
