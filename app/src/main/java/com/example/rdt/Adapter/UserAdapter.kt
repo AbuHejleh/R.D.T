@@ -45,8 +45,9 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = mUsers.get(position)
-        Log.d("xxx", "${user?.getImageURl()}")
+
         holder.user_name.text = user.getUserName()
+
         if (user?.getImageURl().equals("default")) {
             holder.profile_image.setImageResource(R.mipmap.ic_launcher)
 
