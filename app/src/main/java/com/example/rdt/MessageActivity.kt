@@ -72,7 +72,8 @@ class MessageActivity : AppCompatActivity() {
 
 
         intent = getIntent()
-        if (intent.getStringExtra("userid")!! != null){
+
+        if (intent.getStringExtra("userid") != null){
          userid = intent.getStringExtra("userid")!!
         Log.d("extra", userid)
         fbUser = FirebaseAuth.getInstance().currentUser!!

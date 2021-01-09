@@ -21,16 +21,16 @@ class StartActivity : AppCompatActivity() {
         finishActivity(this.taskId)}
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        var user = FirebaseAuth.getInstance().currentUser
-        if (user != null){
-            startActivity(Intent(this,MainActivity::class.java))
-            finish()
-        }
-
-    }
+//    override fun onStart() {
+//        super.onStart()
+//
+//        var user = FirebaseAuth.getInstance().currentUser
+//        if (user != null){
+//            startActivity(Intent(this,MainActivity::class.java))
+//            finish()
+//        }
+//
+//    }
 
 
 }
