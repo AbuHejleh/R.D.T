@@ -13,11 +13,9 @@
         android:roundIcon="@mipmap/project_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Reset_Activity"></activity>
-        <activity
-            android:name=".TheActivity"
-            android:label="@string/title_activity_the"
-            android:theme="@style/AppTheme.NoActionBar" /> <!-- <activity android:name=".Reset_Password_Activity" -->
+        <activity android:name=".Reset_Activity"
+            android:parentActivityName=".LoginActivity"/>
+
         <!-- android:parentActivityName=".LoginActivity"/> -->
         <activity
             android:name=".MessageActivity"

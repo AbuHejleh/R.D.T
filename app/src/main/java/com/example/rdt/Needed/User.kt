@@ -4,7 +4,7 @@ package com.example.rdt.Needed
      private  var id :String? = null
 
      private  var username : String? = null
-     private lateinit var imageURl : String
+     private var imageURl : String? = null
      private  lateinit var status :String
 
 

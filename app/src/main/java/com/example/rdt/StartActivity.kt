@@ -18,7 +18,7 @@ class StartActivity : AppCompatActivity() {
             finishActivity(this.taskId)
         }
         Registration.setOnClickListener { startActivity(Intent(this , RegisterActivity::class.java))
-        finish()}
+        finishActivity(this.taskId)}
     }
 
     override fun onStart() {
