@@ -25,10 +25,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
 
-
-
-
-        val tool  : Toolbar = findViewById(R.id.toolbar)
+        val tool: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(tool)
         supportActionBar?.title = "LOGIN"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -45,40 +42,38 @@ class LoginActivity : AppCompatActivity() {
         }
 
         btn_Login.setOnClickListener {
-            Toast.makeText(this , "it is in " , Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "it is in ", Toast.LENGTH_SHORT).show()
 //            var txt_userName = UserName.text.toString()
             var txt_password = Password.text.toString()
             var txt_Email = Email.text.toString()
-            if ( TextUtils.isEmpty(txt_password) || TextUtils.isEmpty(txt_Email)) {
+            if (TextUtils.isEmpty(txt_password) || TextUtils.isEmpty(txt_Email)) {
                 Toast.makeText(this, "all fields are required ", Toast.LENGTH_SHORT).show()
 
-            } else auth.signInWithEmailAndPassword(txt_Email,txt_password).addOnCompleteListener{
-
-                    fun oncomplete() {
-                        if (it.isSuccessful) {
-                            var intent = Intent(this, MainActivity::class.java)
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                            startActivity(intent)
-                            finish()
-
-                             }else{
-                            Toast.makeText(
-                                this,
-                                "Authentication Failed !!",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-
-                }
+            } else auth.signInWithEmailAndPassword(txt_Email, txt_password).addOnCompleteListener {
 
 
-            oncomplete()}
+                    if (it.isSuccessful) {
+//                            if (FirebaseAuth.getInstance().currentUser?.isEmailVerified == true){
+                         var intent = Intent(this, MainActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(intent)
+
+
+//                    } else{
+//                                Toast.makeText(this, " !! check Your Email !! ", Toast.LENGTH_SHORT).show()}
+
+
+                            } else {
+            Toast.makeText(
+                this,
+                "Authentication Failed !!",
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
 
 
+        }
 
     }
-
-
-}
+}}

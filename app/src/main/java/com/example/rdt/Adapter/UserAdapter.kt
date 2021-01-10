@@ -53,7 +53,7 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
 
         } else {
-            Glide.with(mContext).load(user.getImageURl()).into(holder.profile_image)
+            Glide.with(mContext).load(user.getImageURl()).into(holder.profile_image)}
             if (is_Active) {
                 if (user.getStatus().equals("online")) {
                     holder.status_on.visibility = View.VISIBLE
@@ -67,7 +67,7 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 holder.status_off.visibility = View.GONE}
 
 
-        }
+
         holder.itemView.setOnClickListener { it ->
             val intent = Intent(mContext, MessageActivity::class.java)
             intent.putExtra("userid", user.getId())

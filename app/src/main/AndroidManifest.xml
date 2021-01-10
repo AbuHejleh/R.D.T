@@ -16,7 +16,7 @@
         <activity android:name=".Reset_Activity"
             android:parentActivityName=".LoginActivity"/>
 
-        <!-- android:parentActivityName=".LoginActivity"/> -->
+
         <activity
             android:name=".MessageActivity"
             android:parentActivityName=".MainActivity" />

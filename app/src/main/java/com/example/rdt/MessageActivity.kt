@@ -33,7 +33,7 @@ class MessageActivity : AppCompatActivity() {
 
     lateinit var recyclerView : RecyclerView
 
-    lateinit var fbUser: FirebaseUser
+   var fbUser: FirebaseUser ?=null
     lateinit var dbReference: DatabaseReference
     lateinit var userid: String
 
@@ -83,10 +83,10 @@ class MessageActivity : AppCompatActivity() {
 
         send_btn.setOnClickListener {
             var msg :String = text_message.text.toString()
-            Log.d("finding", " the text is : $msg")
+
             if (!msg.equals("")){
-                Log.d("finding", "the sender is :${fbUser.uid} and the reciver is $userid  the text is : $msg")
-                sendMessage(fbUser.uid , userid, msg)
+
+                sendMessage(fbUser!!.uid , userid, msg)
             }else{
                 Toast.makeText(this,"IT IS EMPTY ",Toast.LENGTH_SHORT).show()
 
@@ -99,44 +99,43 @@ class MessageActivity : AppCompatActivity() {
 
 
 
+        if (intent.getStringExtra("userid") != null) {
+
+            dbReference = FirebaseDatabase.getInstance().getReference("Users").child(userid)
+
+            dbReference.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    var user: User? = snapshot.getValue(User::class.java)
+                    Log.d("extra", " the fb reference  : ${user!!.getUserName()}")
+                    message_username.text = user?.getUserName().toString()
 
 
 
+                    if (user.getImageURl().equals("default")) {
+                        message_profile_image.setImageResource(R.mipmap.ic_launcher)
+
+                    } else {
+
+                        Glide.with(applicationContext).load(user.getImageURl())
+                            .into(message_profile_image)
 
 
-        val event = object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                var user: User? = snapshot.getValue(User::class.java)
-                Log.d("extra", " the fb reference  : ${user!!.getUserName()}")
-                message_username.text = user?.getUserName().toString()
+                    }
 
-
-
-                if (user.getImageURl().equals("default")) {
-                    message_profile_image.setImageResource(R.mipmap.ic_launcher)
-
-                } else {
-
-                    Glide.with(applicationContext).load(user.getImageURl())
-                        .into(message_profile_image)
+                    Log.d("sending", "before the read message method")
+                    readMessages(fbUser!!.uid, userid, user.getImageURl().toString())
 
 
                 }
 
-                Log.d("sending", "before the read message method")
-                readMessages(fbUser.uid,userid, user.getImageURl().toString())
+                override fun onCancelled(error: DatabaseError) {
 
 
+                }
 
-            }
+            })
 
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@MessageActivity,"$error", Toast.LENGTH_SHORT).show()
-
-            }
         }
-        dbReference.addValueEventListener(event)
-
 
     }
 
@@ -148,7 +147,7 @@ class MessageActivity : AppCompatActivity() {
         hashmap.put("message", message)
         ref.child("Chats").push().setValue(hashmap)
         var chatRef :DatabaseReference =FirebaseDatabase.getInstance().getReference("ChatList")
-            .child(fbUser.uid).child(userid)
+            .child(fbUser!!.uid).child(userid)
         Log.d("sending","before the listener ")
         val listener = object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -209,12 +208,13 @@ class MessageActivity : AppCompatActivity() {
 
     }
     private fun status(status :String){
-        var ref =FirebaseDatabase.getInstance().getReference("Users").child(fbUser.uid)
-        var hashMap :HashMap<String, Any> =  HashMap()
-        hashMap.put("status" , status)
-        ref.updateChildren(hashMap)
+        if (fbUser != null) {
+            var ref = FirebaseDatabase.getInstance().getReference("Users").child(fbUser!!.uid!!)
+            var hashMap: HashMap<String, Any> = HashMap()
+            hashMap.put("status", status)
+            ref.updateChildren(hashMap)
 
-
+        }
     }
 
     override fun onResume() {

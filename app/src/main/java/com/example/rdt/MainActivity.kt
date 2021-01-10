@@ -115,8 +115,6 @@ class MainActivity : AppCompatActivity() {
 
 
             viewPagerAdapter.addFragments(ChatsFragment(), "Chats")
-
-
             viewPagerAdapter.addFragments(UsersFragment(), "Users")
             viewPagerAdapter.addFragments(ProfileFragment(), "Profile")
 
@@ -151,7 +149,27 @@ class MainActivity : AppCompatActivity() {
 
                 return true
             }
-        }
+//            R.id.delete -> {
+//                var user = FirebaseAuth.getInstance().currentUser!!
+//                user.delete().addOnCompleteListener {
+//                    if (it.isSuccessful) {
+//                        startActivity(Intent(this, StartActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+//                      finishActivity(this.taskId)
+////                      val referance = FirebaseDatabase.getInstance().getReference("Users").child(user.uid)
+////                     referance.removeValue()
+//
+//
+//
+//
+//                    } else {
+//                        Toast.makeText(this, "${it.exception}", Toast.LENGTH_SHORT).show()
+//                    }}
+//
+//
+//                }
+
+            }
+
 
         return false
     }

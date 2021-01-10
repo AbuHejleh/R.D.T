@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.activity_register.toolbar
+import kotlinx.android.synthetic.main.activity_reset_.*
 import kotlinx.android.synthetic.main.bar_layout.*
 
 class RegisterActivity : AppCompatActivity() {
@@ -48,10 +49,20 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(this, "the password must a least 6 characters ", Toast.LENGTH_SHORT)
                     .show()
             } else {
+
                 Register(txt_userName , txt_Email, txt_password)
+
+
+
+
+
+
 
             }
         }
+        val fb = FirebaseAuth.getInstance()
+
+
 
     }
 
@@ -60,34 +71,49 @@ class RegisterActivity : AppCompatActivity() {
             .addOnCompleteListener(OnCompleteListener {
                 fun oncomplete() {
                     if (it.isSuccessful) {
-                        val firebaseuser: FirebaseUser = auth.currentUser!!
 
-                        val userid: String = firebaseuser.uid.toString()
-                        val referance = FirebaseDatabase.getInstance().getReference("Users").child(userid)
+                        var user: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
 
-                        val hashMap = hashMapOf<String, String>()
+                        if (user != null) {
+                            user.sendEmailVerification().addOnCompleteListener {
 
-                        hashMap.put("id", userid)
-                        hashMap.put("username", username)
-                        hashMap.put("imageURl", "default")
-                        hashMap.put("status", "offline")
+                                if (it.isSuccessful()) {
 
-                        referance.setValue(hashMap)
-                            .addOnCompleteListener(OnCompleteListener { task ->
-                                if (it.isSuccessful) {
-                                    var intent = Intent(this, MainActivity::class.java)
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                                    Toast.makeText(this , " You Did it !!" , Toast.LENGTH_SHORT ).show()
-                                    startActivity(intent)
-                                    finish()
+
+
+                                    val firebaseuser: FirebaseUser = auth.currentUser!!
+
+                                    val userid: String = firebaseuser.uid.toString()
+                                    val referance = FirebaseDatabase.getInstance().getReference("Users").child(userid)
+
+                                    val hashMap = hashMapOf<String, String>()
+
+                                    hashMap.put("id", userid)
+                                    hashMap.put("username", username)
+                                    hashMap.put("imageURl", "default")
+                                    hashMap.put("status", "offline")
+
+                                    referance.setValue(hashMap).addOnCompleteListener(OnCompleteListener {
+                                            it ->
+                                        val intent = Intent(this, MainActivity::class.java)
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        Toast.makeText(this, " !! check Your Email !! ", Toast.LENGTH_SHORT).show()
+                                        startActivity(intent)
+                                        finish()
+
+
+
+                                       })
                                 } else {
                                     Toast.makeText(
                                         this,
-                                        "AUTHENTICATION FAILED",
+                                        "Couldn't Send Verification Email",
                                         Toast.LENGTH_SHORT
-                                    ).show()
+                                    ).show();
                                 }
-                            })
+                            }
+
+                        }
 
 
                     } else {
@@ -100,7 +126,8 @@ class RegisterActivity : AppCompatActivity() {
                     }
 
                 }
-             oncomplete()})
+                oncomplete()
+            })
 
 
     }

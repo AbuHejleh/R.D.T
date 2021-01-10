@@ -56,21 +56,22 @@ class ProfileFragment : Fragment() {
         Log.d("Profile_test", "before the listener")
         val listener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                var user: User = snapshot.getValue(User::class.java)!!
+                if (snapshot.getValue(User::class.java) != null){
+                var user : User ?= snapshot.getValue(User::class.java)!!
                 Log.d("Profile_test", "in the snapshot")
-                username.text = user.getUserName()
-                if (user.getImageURl().equals("default")) {
+                username.text = user?.getUserName()
+                if (user?.getImageURl().equals("default")) {
                     imageProfile.setImageResource(R.mipmap.ic_launcher)
                 Log.d("pic", "default")
                 } else {
                     if (context != null) {
-                        Glide.with(context!!).load(user.getImageURl()).into(imageProfile)
+                        Glide.with(context!!).load(user?.getImageURl()).into(imageProfile)
                         Log.d("pic", "updated")
                     }
 
                 }
 
-            }
+            }}
 
             override fun onCancelled(error: DatabaseError) {
                 Log.d("Profile_test", "in the error")
@@ -94,7 +95,7 @@ class ProfileFragment : Fragment() {
 
     private fun getFileExtension(uri: Uri): String {
         Log.d("testing", "the getFileExtension ")
-        val contentResolver: ContentResolver = context!!.contentResolver
+        val contentResolver: ContentResolver = requireContext().contentResolver
         val mime: MimeTypeMap = MimeTypeMap.getSingleton()
         return mime.getExtensionFromMimeType(contentResolver.getType(uri))!!
 
