@@ -30,7 +30,8 @@ import kotlin.math.log
 class MainActivity : AppCompatActivity() {
 
     private val firebaseuser:FirebaseUser = FirebaseAuth.getInstance().currentUser!!
-   private val refrance = FirebaseDatabase.getInstance().getReference("Users").child(firebaseuser.uid)
+ val refrance = FirebaseDatabase.getInstance().getReference("Users").child(firebaseuser.uid)
+    var detection = false
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -149,24 +150,28 @@ class MainActivity : AppCompatActivity() {
 
                 return true
             }
-//            R.id.delete -> {
-//                var user = FirebaseAuth.getInstance().currentUser!!
-//                user.delete().addOnCompleteListener {
-//                    if (it.isSuccessful) {
-//                        startActivity(Intent(this, StartActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-//                      finishActivity(this.taskId)
-////                      val referance = FirebaseDatabase.getInstance().getReference("Users").child(user.uid)
-////                     referance.removeValue()
-//
-//
-//
-//
-//                    } else {
-//                        Toast.makeText(this, "${it.exception}", Toast.LENGTH_SHORT).show()
-//                    }}
-//
-//
-//                }
+            R.id.delete -> {
+                var user = FirebaseAuth.getInstance().currentUser!!
+                user.delete().addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        startActivity(Intent(this, StartActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                      finishActivity(this.taskId)
+                      val referance: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users").child(user.uid)
+                        detection = true
+
+                       referance.removeValue()
+
+
+
+
+
+
+                    } else {
+                        Toast.makeText(this, "${it.exception}", Toast.LENGTH_SHORT).show()
+                    }}
+
+
+                }
 
             }
 
@@ -246,13 +251,14 @@ class MyviewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
 }
     private fun status(status :String){
+      if (detection != true){
         val ref =FirebaseDatabase.getInstance().getReference("Users").child(firebaseuser.uid)
         val hashMap :HashMap<String, Any> =  HashMap()
         hashMap.put("status" , status)
         ref.updateChildren(hashMap)
 
 
-    }
+    }}
 
     override fun onResume() {
         super.onResume()
