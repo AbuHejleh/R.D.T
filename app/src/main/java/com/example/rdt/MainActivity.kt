@@ -155,12 +155,12 @@ class MainActivity : AppCompatActivity() {
                 user.delete().addOnCompleteListener {
                     if (it.isSuccessful) {
                         startActivity(Intent(this, StartActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                      finishActivity(this.taskId)
-                      val referance: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users").child(user.uid)
+
+                      var referance: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users").child(user.uid)
                         detection = true
 
                        referance.removeValue()
-
+                        finishActivity(this.taskId)
 
 
 
