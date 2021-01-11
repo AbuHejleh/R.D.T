@@ -37,7 +37,7 @@ class StartActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
 //        super.onBackPressed()
-       var alert =  android.app.AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert)
+       var alert =  android.app.AlertDialog.Builder(this).setIcon(R.drawable.warrning_icon)
            .setTitle(" Exit ").setMessage(" DO YOU WANT TO EXIT ? ").setPositiveButton("YES" , object : DialogInterface.OnClickListener{
                override fun onClick(p0: DialogInterface?, p1: Int) {
                finish()

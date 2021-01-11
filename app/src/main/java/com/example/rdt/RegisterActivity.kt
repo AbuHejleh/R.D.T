@@ -30,7 +30,7 @@ class RegisterActivity : AppCompatActivity() {
         var tool  : Toolbar = findViewById(toolbar.id)
         setSupportActionBar(tool)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setTitle("REGISTER")
+        supportActionBar?.setTitle("")
 
 
         auth = FirebaseAuth.getInstance()

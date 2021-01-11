@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Profile"
-            android:textColor="#DC73B2"
+            android:textColor="#3A3A3A"
             android:textStyle="bold"/>
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="100dp"
@@ -37,7 +37,7 @@
             android:layout_below="@id/the_profile_image"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:textColor="#8BC34A"
+            android:textColor="#3A3A3A"
             android:textStyle="bold"
             android:textSize="18dp"
             android:id="@+id/profile_username"
