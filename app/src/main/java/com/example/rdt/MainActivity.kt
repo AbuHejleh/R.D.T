@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     private val firebaseuser:FirebaseUser = FirebaseAuth.getInstance().currentUser!!
  val refrance = FirebaseDatabase.getInstance().getReference("Users").child(firebaseuser.uid)
-    var detection = false
+   public var detection = false
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -146,7 +146,7 @@ class MainActivity : AppCompatActivity() {
                 FirebaseAuth.getInstance().signOut()
                 startActivity(Intent(this, StartActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 //                startActivity(Intent(this, StartActivity::class.java))
-//                finish()
+                finishActivity(this.taskId)
 
                 return true
             }
@@ -154,10 +154,13 @@ class MainActivity : AppCompatActivity() {
                 val user = FirebaseAuth.getInstance().currentUser!!
                 user.delete().addOnCompleteListener {
                     if (it.isSuccessful) {
-                        startActivity(Intent(this, StartActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                        startActivity(Intent(this, StartActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
                         finishActivity(this.taskId)
                       var referance: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users").child(user.uid)
+                        var referance1: DatabaseReference = FirebaseDatabase.getInstance().getReference("ChatList").child(user.uid)
+
                         detection = true
+                        referance1.removeValue()
 
                        referance.removeValue()
 
@@ -167,10 +170,11 @@ class MainActivity : AppCompatActivity() {
 
 
                     } else {
-
+                        FirebaseAuth.getInstance().signOut()
+                        startActivity(Intent(this, StartActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
                         Toast.makeText(this, " !!! Please Login And Try Again !!! ", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this, StartActivity::class.java))
                         finishActivity(this.taskId)
+
                     }}
 
 

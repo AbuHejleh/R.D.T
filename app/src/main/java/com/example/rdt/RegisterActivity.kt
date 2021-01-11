@@ -95,7 +95,7 @@ class RegisterActivity : AppCompatActivity() {
 
                                     referance.setValue(hashMap).addOnCompleteListener(OnCompleteListener {
                                             it ->
-                                        val intent = Intent(this, LoginActivity::class.java)
+                                        val intent = Intent(this, MainActivity::class.java)
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                                         Toast.makeText(this, " !! check Your Email !! ", Toast.LENGTH_SHORT).show()
                                         startActivity(intent)

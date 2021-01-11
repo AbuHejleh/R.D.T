@@ -90,7 +90,7 @@ class UsersFragment : Fragment() {
                         mUser.add(user)
                     }
                 }
-                userAdapter = UserAdapter(requireContext(), mUser, false)
+                userAdapter = UserAdapter(context!!, mUser, false)
                 recyclerView.adapter = userAdapter
             }
 

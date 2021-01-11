@@ -25,7 +25,8 @@
             android:gravity="center"
             android:text="Creat A New Account"
             android:textSize="20dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+          />
 
 
         <com.rengwuxian.materialedittext.MaterialEditText
@@ -63,8 +64,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-           android:background="@drawable/rounded_corners"
+            android:background="@drawable/rounded_corners"
             android:text="Register"
+
             />
 
     </LinearLayout>

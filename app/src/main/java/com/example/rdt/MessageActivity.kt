@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.activity_message.toolbar
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
+import kotlin.math.log
 
 class MessageActivity : AppCompatActivity() {
 
@@ -106,25 +107,27 @@ class MessageActivity : AppCompatActivity() {
             dbReference.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     var user: User? = snapshot.getValue(User::class.java)
-                    Log.d("extra", " the fb reference  : ${user!!.getUserName()}")
+
                     message_username.text = user?.getUserName().toString()
 
 
 
-                    if (user.getImageURl().equals("default")) {
+                    if (user?.getImageURl().equals("default")) {
                         message_profile_image.setImageResource(R.mipmap.ic_launcher)
 
                     } else {
 
-                        Glide.with(applicationContext).load(user.getImageURl())
+                        Glide.with(applicationContext).load(user?.getImageURl())
                             .into(message_profile_image)
 
 
                     }
+if (user?.getImageURl() != null) {
+    readMessages(
+        fbUser!!.uid, userid, user.getImageURl()!!
+    )
 
-                    readMessages(fbUser!!.uid, userid, user.getImageURl()!! )
-
-
+}
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -146,27 +149,27 @@ class MessageActivity : AppCompatActivity() {
         hashmap.put("message", message)
         ref.child("Chats").push().setValue(hashmap)
 
-//
-//        var chatRef :DatabaseReference =FirebaseDatabase.getInstance().getReference("ChatList")
-//            .child(fbUser!!.uid).child(userid)
-//
-//        val listener = object :ValueEventListener{
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//            if (!snapshot.exists()){
-//
-//                chatRef.child("id").setValue(userid)
-//
-//            }
-//
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//                TODO("Not yet implemented")
-//                Toast.makeText(this@MessageActivity,"$error", Toast.LENGTH_SHORT).show()
-//            }
 
-//        }
-//        chatRef.addListenerForSingleValueEvent(listener)
+        var chatRef :DatabaseReference =FirebaseDatabase.getInstance().getReference("ChatList")
+            .child(fbUser!!.uid).child(userid)
+
+        val listener = object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+            if (!snapshot.exists()) {
+
+
+                chatRef.child("id").setValue(userid)
+
+            }
+            }
+
+           override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+               Toast.makeText(this@MessageActivity,"$error", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+        chatRef.addListenerForSingleValueEvent(listener)
 
 
 

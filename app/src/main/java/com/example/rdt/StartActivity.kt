@@ -1,13 +1,9 @@
 package com.example.rdt
 
-import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.telephony.ims.RegistrationManager
-import android.view.View
-import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_start.*
 
@@ -17,19 +13,20 @@ class StartActivity : AppCompatActivity() {
         setContentView(R.layout.activity_start)
 
 
-        login.setOnClickListener {startActivity(Intent(this , LoginActivity::class.java))
+        login.setOnClickListener {startActivity(Intent(this, LoginActivity::class.java))
             finishActivity(this.taskId)
         }
-        Registration.setOnClickListener { startActivity(Intent(this , RegisterActivity::class.java))
+        Registration.setOnClickListener { startActivity(Intent(this, RegisterActivity::class.java))
         finishActivity(this.taskId)}
     }
 
     override fun onStart() {
         super.onStart()
 
+
         var user = FirebaseAuth.getInstance().currentUser
         if (user != null){
-            startActivity(Intent(this,MainActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
 
@@ -37,12 +34,18 @@ class StartActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
 //        super.onBackPressed()
-       var alert =  android.app.AlertDialog.Builder(this).setIcon(R.drawable.warrning_icon)
-           .setTitle(" Exit ").setMessage(" DO YOU WANT TO EXIT ? ").setPositiveButton("YES" , object : DialogInterface.OnClickListener{
-               override fun onClick(p0: DialogInterface?, p1: Int) {
-               finish()
-               }
-           }).setNegativeButton("NO" , null).show()
+       val alert =  android.app.AlertDialog.Builder(this).setIcon(R.drawable.warrning_icon)
+           .setTitle(" Exit ").setMessage(" DO YOU WANT TO EXIT ? ").setPositiveButton(
+               "YES",
+               object : DialogInterface.OnClickListener {
+                   override fun onClick(p0: DialogInterface?, p1: Int) {
+                       val a = Intent(Intent.ACTION_MAIN)
+                       a.addCategory(Intent.CATEGORY_HOME)
+                       a.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                       startActivity(a)
+
+                   }
+               }).setNegativeButton("NO", null).show()
 alert
     }
 
