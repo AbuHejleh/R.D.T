@@ -151,23 +151,26 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
             R.id.delete -> {
-                var user = FirebaseAuth.getInstance().currentUser!!
+                val user = FirebaseAuth.getInstance().currentUser!!
                 user.delete().addOnCompleteListener {
                     if (it.isSuccessful) {
                         startActivity(Intent(this, StartActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-
+                        finishActivity(this.taskId)
                       var referance: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users").child(user.uid)
                         detection = true
 
                        referance.removeValue()
-                        finishActivity(this.taskId)
+
 
 
 
 
 
                     } else {
-                        Toast.makeText(this, "${it.exception}", Toast.LENGTH_SHORT).show()
+
+                        Toast.makeText(this, " !!! Please Login And Try Again !!! ", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this, StartActivity::class.java))
+                        finishActivity(this.taskId)
                     }}
 
 
@@ -178,7 +181,7 @@ class MainActivity : AppCompatActivity() {
 
         return false
     }
-//
+
 
 
 

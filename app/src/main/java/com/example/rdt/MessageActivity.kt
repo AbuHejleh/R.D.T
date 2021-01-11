@@ -36,7 +36,7 @@ class MessageActivity : AppCompatActivity() {
    var fbUser: FirebaseUser ?=null
     lateinit var dbReference: DatabaseReference
     lateinit var userid: String
-
+    lateinit var seen : ValueEventListener
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("extra", " in it")
 
@@ -122,8 +122,7 @@ class MessageActivity : AppCompatActivity() {
 
                     }
 
-                    Log.d("sending", "before the read message method")
-                    readMessages(fbUser!!.uid, userid, user.getImageURl().toString())
+                    readMessages(fbUser!!.uid, userid, user.getImageURl()!! )
 
 
                 }
@@ -146,26 +145,28 @@ class MessageActivity : AppCompatActivity() {
         hashmap.put("receiver", receiver)
         hashmap.put("message", message)
         ref.child("Chats").push().setValue(hashmap)
-        var chatRef :DatabaseReference =FirebaseDatabase.getInstance().getReference("ChatList")
-            .child(fbUser!!.uid).child(userid)
-        Log.d("sending","before the listener ")
-        val listener = object :ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-            if (!snapshot.exists()){
-                Log.d("sending","done with the exist ")
-                chatRef.child("id").setValue(userid)
 
-            }
+//
+//        var chatRef :DatabaseReference =FirebaseDatabase.getInstance().getReference("ChatList")
+//            .child(fbUser!!.uid).child(userid)
+//
+//        val listener = object :ValueEventListener{
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//            if (!snapshot.exists()){
+//
+//                chatRef.child("id").setValue(userid)
+//
+//            }
+//
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                TODO("Not yet implemented")
+//                Toast.makeText(this@MessageActivity,"$error", Toast.LENGTH_SHORT).show()
+//            }
 
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-                Toast.makeText(this@MessageActivity,"$error", Toast.LENGTH_SHORT).show()
-            }
-
-        }
-        chatRef.addListenerForSingleValueEvent(listener)
+//        }
+//        chatRef.addListenerForSingleValueEvent(listener)
 
 
 
@@ -174,19 +175,20 @@ class MessageActivity : AppCompatActivity() {
         Chat_list = ArrayList()
         Log.d("finding", "in the read messages")
         dbReference = FirebaseDatabase.getInstance().getReference("Chats")
-        var vel = object :ValueEventListener{
+
+        dbReference.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 Chat_list.clear()
                 Log.d("finding", "geting to the for loop")
                 for (snap: DataSnapshot in snapshot.children) {
 
                     var chat :chat = snap.getValue(chat::class.java)!!
-                if (chat.getReceiver().equals(myid) && chat.getSender().equals(userid) ||
-                    chat.getReceiver().equals(userid) && chat.getSender().equals(myid) ){
-                    Log.d("finding", "in the if inside the for loop")
-                    Chat_list.add(chat)
-                }
-                messageAdapter = MessageAdapter(this@MessageActivity ,Chat_list , imageurl)
+                    if (chat.getReceiver().equals(myid) && chat.getSender().equals(userid) ||
+                        chat.getReceiver().equals(userid) && chat.getSender().equals(myid) ){
+                        Log.d("finding", "in the if inside the for loop")
+                        Chat_list.add(chat)
+                    }
+                    messageAdapter = MessageAdapter(this@MessageActivity ,Chat_list , imageurl)
                     recyclerView.adapter = messageAdapter
                 }
 
@@ -200,8 +202,7 @@ class MessageActivity : AppCompatActivity() {
 
             }
 
-        }
-        dbReference.addValueEventListener(vel)
+        })
 
 
 

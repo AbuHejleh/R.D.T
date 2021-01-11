@@ -21,5 +21,14 @@
         android:padding="8dp"
         android:layout_height="wrap_content"
         android:background="@drawable/left_background"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/seen"
+        android:text="seen"
+        android:layout_below="@id/show_message"
+        android:visibility="gone"
+
+        android:layout_marginLeft="3dp"/>
 
 </RelativeLayout>
