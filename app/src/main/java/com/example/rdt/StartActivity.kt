@@ -22,13 +22,14 @@ class StartActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        if (FirebaseAuth.getInstance().currentUser?.isEmailVerified == true){
 
 
         var user = FirebaseAuth.getInstance().currentUser
         if (user != null){
             startActivity(Intent(this, MainActivity::class.java))
             finish()
-        }
+        }}
 
     }
 

@@ -1,21 +1,21 @@
 package com.example.rdt
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.text.TextUtils
-import android.widget.TextView
+import android.util.Log
+import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.activity_register.Email
 import kotlinx.android.synthetic.main.activity_register.Password
-import kotlinx.android.synthetic.main.activity_register.toolbar
 
 
 class LoginActivity : AppCompatActivity() {
@@ -34,7 +34,7 @@ class LoginActivity : AppCompatActivity() {
 
 
         forgot_password.setOnClickListener {
-            Toast.makeText(this, "U clicked it", Toast.LENGTH_SHORT).show()
+
             val move = Intent(this, Reset_Activity::class.java)
             startActivity(move)
 
@@ -42,7 +42,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         btn_Login.setOnClickListener {
-            Toast.makeText(this, "it is in ", Toast.LENGTH_SHORT).show()
+
 //            var txt_userName = UserName.text.toString()
             var txt_password = Password.text.toString()
             var txt_Email = Email.text.toString()
@@ -53,14 +53,29 @@ class LoginActivity : AppCompatActivity() {
 
 
                     if (it.isSuccessful) {
-//                            if (FirebaseAuth.getInstance().currentUser?.isEmailVerified == true){
-                         var intent = Intent(this, MainActivity::class.java)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                        startActivity(intent)
 
 
-//                    } else{
-//                                Toast.makeText(this, " !! check Your Email !! ", Toast.LENGTH_SHORT).show()}
+                            if (FirebaseAuth.getInstance().currentUser?.isEmailVerified != true){
+
+                                Toast.makeText(
+                                    this,
+                                    " !! Please check Your Email !! ",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+
+
+
+                        } else{ var intent = Intent(this, MainActivity::class.java)
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                                startActivity(intent)
+                                finish()
+
+
+
+
+
+                        }
 
 
                             } else {
@@ -76,4 +91,102 @@ class LoginActivity : AppCompatActivity() {
         }
 
     }
-}}
+}
+
+    override fun onOptionsItemSelected(menuItem: MenuItem): Boolean {
+        if (menuItem.getItemId() === android.R.id.home) {
+
+                if ( FirebaseAuth.getInstance().currentUser != null){
+                    if (FirebaseAuth.getInstance().currentUser?.isEmailVerified != true){
+                        val user = FirebaseAuth.getInstance().currentUser!!
+
+                        user.delete().addOnCompleteListener {
+                            if (it.isSuccessful) {
+
+                                var referance: DatabaseReference = FirebaseDatabase.getInstance().getReference(
+                                    "Users"
+                                ).child(user.uid)
+                                var referance1: DatabaseReference = FirebaseDatabase.getInstance().getReference(
+                                    "ChatList"
+                                ).child(user.uid)
+
+                                referance1.removeValue()
+
+                                referance.removeValue()
+
+
+                            } }
+
+
+                    }
+                    val intent = Intent(this@LoginActivity, StartActivity::class.java)
+                    startActivity(intent)
+                    finishActivity(this.taskId)
+                }
+                    }
+
+
+        return super.onOptionsItemSelected(menuItem)
+    }
+
+
+//    override fun onPause() {
+//
+//        if ( FirebaseAuth.getInstance().currentUser != null){
+//            if (FirebaseAuth.getInstance().currentUser?.isEmailVerified != true){
+//                val user = FirebaseAuth.getInstance().currentUser!!
+//
+//                user.delete().addOnCompleteListener {
+//                    if (it.isSuccessful) {
+//
+//                        var referance: DatabaseReference = FirebaseDatabase.getInstance().getReference(
+//                            "Users"
+//                        ).child(user.uid)
+//                        var referance1: DatabaseReference = FirebaseDatabase.getInstance().getReference(
+//                            "ChatList"
+//                        ).child(user.uid)
+//
+//                        referance1.removeValue()
+//
+//                        referance.removeValue()
+//                        Toast.makeText(
+//                            this@LoginActivity,
+//                            "The account has been deleted ",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//
+//                    } }
+//
+//
+//            }}
+//        super.onPause()
+//    }
+
+    override fun onDestroy() {
+
+        if ( FirebaseAuth.getInstance().currentUser != null){
+            if (FirebaseAuth.getInstance().currentUser?.isEmailVerified != true){
+                val user = FirebaseAuth.getInstance().currentUser!!
+
+                user.delete().addOnCompleteListener {
+                    if (it.isSuccessful) {
+
+                        var referance: DatabaseReference = FirebaseDatabase.getInstance().getReference(
+                            "Users"
+                        ).child(user.uid)
+                        var referance1: DatabaseReference = FirebaseDatabase.getInstance().getReference(
+                            "ChatList"
+                        ).child(user.uid)
+
+                        referance1.removeValue()
+
+                        referance.removeValue()
+
+
+                    } }
+
+
+            }}
+        super.onDestroy()
+    }
+}

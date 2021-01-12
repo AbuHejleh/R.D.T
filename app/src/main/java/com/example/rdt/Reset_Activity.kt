@@ -26,7 +26,7 @@ class Reset_Activity : AppCompatActivity() {
             Log.d("email", "$email")
             if (email.equals("")) {
                 Toast.makeText(this, "All Fields Are Required", Toast.LENGTH_SHORT).show()
-            } else {
+            } else if (FirebaseAuth.getInstance().currentUser?.isEmailVerified == true) {
                 fbAuth.sendPasswordResetEmail(email).addOnCompleteListener {
                     if (it.isSuccessful) {
                         Toast.makeText(this, " !! Check Your Email !! ", Toast.LENGTH_SHORT).show()
@@ -40,6 +40,8 @@ class Reset_Activity : AppCompatActivity() {
                 }
 
 
+            }else if (FirebaseAuth.getInstance().currentUser?.isEmailVerified != true){
+                Toast.makeText(this , " !! Email Not Verified !! ", Toast.LENGTH_SHORT).show()
             }
         }
 

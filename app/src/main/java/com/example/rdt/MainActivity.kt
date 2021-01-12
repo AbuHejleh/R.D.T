@@ -2,6 +2,7 @@ package com.example.rdt
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -83,7 +84,7 @@ class MainActivity : AppCompatActivity() {
 
 //                } else {
 //                    Toast.makeText(this@MainActivity, "WHO ARE U", Toast.LENGTH_SHORT).show()
-////                    invoke<Any, Unit>({ salle() }, 10)
+//                    invoke<Any, Unit>({ salle() }, 10)
 //
 //
 //                }
@@ -195,7 +196,8 @@ class MainActivity : AppCompatActivity() {
     // just some homemade methods
 //    fun <any,Unit> invoke(call:()-> any, time : Long){
 //        Log.e("TESTING","the invoke has started")
-//       val timer = object : CountDownTimer(time,0) {
+//    val minute:Long = 1000 * 60
+//    val timer = object : CountDownTimer(minute,0) {
 //
 //            override fun onTick(p0: Long) {
 //                Log.e("TESTING","$p0 sec")
