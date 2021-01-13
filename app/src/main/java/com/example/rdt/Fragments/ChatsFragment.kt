@@ -5,11 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
-import androidx.fragment.app.FragmentPagerAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rdt.MainActivity
 import com.example.rdt.Needed.Chatlist
 import com.example.rdt.Needed.User
 import com.example.rdt.R
@@ -17,7 +16,6 @@ import com.example.rdt.adapters.UserAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.fragment_chats.*
 
 class ChatsFragment : Fragment() {
 
@@ -29,6 +27,7 @@ private lateinit var mUser :ArrayList<User>
     private lateinit var usersList : ArrayList<Chatlist>
 
 lateinit var recyclerView : RecyclerView
+
 
 
 

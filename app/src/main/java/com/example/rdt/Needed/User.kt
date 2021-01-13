@@ -2,7 +2,6 @@ package com.example.rdt.Needed
 
  class User {
      private  var id :String? = null
-
      private  var username : String? = null
      private var imageURl : String? = null
      private  lateinit var status :String
@@ -25,10 +24,12 @@ package com.example.rdt.Needed
     public  fun  getUserName(): String? {
         return this.username
     }
+
      public fun setId(id: String) {
          this.id=id
 
      }
+
      public  fun  getId(): String? {
          return this.id
      }
@@ -38,6 +39,7 @@ package com.example.rdt.Needed
         this.imageURl = imageURl
 
     }
+
     public  fun  getImageURl(): String? {
         return imageURl
     }
@@ -46,6 +48,7 @@ package com.example.rdt.Needed
          this.status = status
 
      }
+
      public  fun  getStatus(): String? {
          return status
      }

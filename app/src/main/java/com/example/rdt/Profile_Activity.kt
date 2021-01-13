@@ -28,7 +28,7 @@ import kotlin.collections.HashMap
 import kotlin.math.log
 
 
-class MainActivity : AppCompatActivity() {
+class Profile_Activity : AppCompatActivity() {
 
     private val firebaseuser:FirebaseUser = FirebaseAuth.getInstance().currentUser!!
  val refrance = FirebaseDatabase.getInstance().getReference("Users").child(firebaseuser.uid)
@@ -46,12 +46,6 @@ class MainActivity : AppCompatActivity() {
         var circleImage: CircleImageView
 
 
-
-
-
-        //    Log.e("rer", "${refrance.key}")
-
-
         val value = object : ValueEventListener {
 
 
@@ -64,26 +58,12 @@ class MainActivity : AppCompatActivity() {
                 val user: User? = ss.getValue(User::class.java)
 //                user?.setId(ss.child("id").value.toString())
                 user?.setId(refrance.key!!)
-//                user?.setImageURl(ss.child("imageURl").key.toString())
-//                Log.d("lele", " THE ID IS : ${user?.getId()}")
-//                Log.d("lele", " THE URL IS : ${user?.getImageURl()}")
-
-
-//                                                                                User(firebaseuser.uid,user?.getUserName().toString(),"")
-
-//                Log.e("TESTING", "${user?.getUserName()} " + "this")
-//                Log.e(
-//                    "TESTING",
-//                    "${user?.setImageURl(ss.child("imageURL").value.toString())} " + "this"
-//                )
-//                Log.e("TESTING", "${user?.getImageURl()} " + "this")
-//                if (username.text != null) {
 
 
                     username.text = user?.getUserName().toString()
 
 //                } else {
-//                    Toast.makeText(this@MainActivity, "WHO ARE U", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@Profile_Activity, "WHO ARE U", Toast.LENGTH_SHORT).show()
 //                    invoke<Any, Unit>({ salle() }, 10)
 //
 //
@@ -113,16 +93,16 @@ class MainActivity : AppCompatActivity() {
         refrance.addValueEventListener(value)
 
         try {
-            var viewPagerAdapter = MyviewPagerAdapter(supportFragmentManager)
+            var vpa = ViewPagerAdapter(supportFragmentManager)
 
 
-            viewPagerAdapter.addFragments(ChatsFragment(), "Chats")
-            viewPagerAdapter.addFragments(UsersFragment(), "Users")
-            viewPagerAdapter.addFragments(ProfileFragment(), "Profile")
+            vpa.addFragments(ChatsFragment(), "Chats")
+            vpa.addFragments(UsersFragment(), "Users")
+            vpa.addFragments(ProfileFragment(), "Profile")
 
 
 
-            view_pager.adapter = viewPagerAdapter
+            view_pager.adapter = vpa
 
             tab_layout.setupWithViewPager(view_pager)
             Log.d("xx", "done with the setup")
@@ -135,13 +115,13 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        Log.e("TESTING","IN THE ON CREATE OPTIONSMENU")
+
         menuInflater.inflate(R.menu.menu, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        Log.e("TESTING","IN THE ON OPTION ITEM SELECTED")
+
         when (item.itemId) {
             R.id.logout -> {
                 FirebaseAuth.getInstance().signOut()
@@ -164,11 +144,6 @@ class MainActivity : AppCompatActivity() {
                         referance1.removeValue()
 
                        referance.removeValue()
-
-
-
-
-
 
                     } else {
                         FirebaseAuth.getInstance().signOut()
@@ -227,7 +202,7 @@ class MainActivity : AppCompatActivity() {
 //        finish()
 
 
-class MyviewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+class ViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
 
     private val fragments: ArrayList<Fragment>
@@ -259,7 +234,8 @@ class MyviewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
 
 }
-    private fun status(status :String){
+
+  private fun status(status :String){
       if (detection != true){
         val ref =FirebaseDatabase.getInstance().getReference("Users").child(firebaseuser.uid)
         val hashMap :HashMap<String, Any> =  HashMap()
@@ -281,24 +257,3 @@ class MyviewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.rdt.MessageActivity
-import com.example.rdt.Needed.User
+
 import com.example.rdt.Needed.chat
 import com.example.rdt.R
 
@@ -19,8 +19,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
 class MessageAdapter: RecyclerView.Adapter<MessageAdapter.ViewHolder> {
-    public val MSG_TYPE_LEFT = 0
-    public val MSG_TYPE_Right = 1
+    val MSG_TYPE_LEFT = 0
+    val MSG_TYPE_Right = 1
     private  var mContext: Context
     private  var mChat: List<chat>
     private var imagurl :String
@@ -35,8 +35,10 @@ class MessageAdapter: RecyclerView.Adapter<MessageAdapter.ViewHolder> {
     }
 
     public class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
         var show_message: TextView = itemView.findViewById(R.id.show_message)
         var profile_image: ImageView = itemView.findViewById(R.id.profile_image)
+        var seen: TextView = itemView.findViewById(R.id.seen)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageAdapter.ViewHolder {
@@ -61,6 +63,18 @@ class MessageAdapter: RecyclerView.Adapter<MessageAdapter.ViewHolder> {
         }else{
             Glide.with(mContext).load(imagurl).into(holder.profile_image)
             Log.d("pic " , " updated ")
+        }
+
+        if (position == mChat.size-1){
+            if (chat.getSeen()!!){
+                holder.seen.text= "Seen"
+            }else{
+                holder.seen.text= "Delivered"
+
+
+            }
+        } else{
+        holder.seen.visibility =View.GONE
         }
 
 

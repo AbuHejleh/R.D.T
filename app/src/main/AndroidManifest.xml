@@ -19,14 +19,14 @@
 
         <activity
             android:name=".MessageActivity"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".Profile_Activity" />
         <activity
             android:name=".RegisterActivity"
             android:parentActivityName=".StartActivity" />
         <activity
             android:name=".LoginActivity"
             android:parentActivityName=".StartActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".Profile_Activity" />
         <activity android:name=".StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

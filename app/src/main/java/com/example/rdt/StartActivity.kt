@@ -27,7 +27,7 @@ class StartActivity : AppCompatActivity() {
 
         var user = FirebaseAuth.getInstance().currentUser
         if (user != null){
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, Profile_Activity::class.java))
             finish()
         }}
 

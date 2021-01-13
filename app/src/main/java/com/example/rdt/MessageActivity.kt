@@ -5,10 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.rdt.Adapter.MessageAdapter
@@ -17,14 +15,12 @@ import com.example.rdt.Needed.chat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
-import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_message.*
 import kotlinx.android.synthetic.main.activity_message.toolbar
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
-import kotlin.math.log
 
 class MessageActivity : AppCompatActivity() {
 
@@ -53,7 +49,7 @@ class MessageActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-               startActivity(Intent(this@MessageActivity ,MainActivity::class.java ).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+               startActivity(Intent(this@MessageActivity ,Profile_Activity::class.java ).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
 //                finish()
             }
 
@@ -138,8 +134,37 @@ if (user?.getImageURl() != null) {
             })
 
         }
+        seenMessages(userid)
 
     }
+
+    fun seenMessages(string :String){
+        var dbReference = FirebaseDatabase.getInstance().getReference("Chats")
+        seen = dbReference.addValueEventListener(object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (snap: DataSnapshot in snapshot.children) {
+                    var chat :chat = snap.getValue(chat::class.java)!!
+                    if (chat.getReceiver().equals(fbUser?.uid) && chat.getSender().equals(userid)){
+                        val hashmap: HashMap<String, Any> = HashMap<String, Any>()
+                        hashmap.put("seen", true)
+                        snap.ref.updateChildren(hashmap)
+
+
+                    }
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+
+    }
+
+
+
+
 
     private fun sendMessage(sender: String, receiver: String, message: String) {
         val ref: DatabaseReference = FirebaseDatabase.getInstance().getReference()
@@ -147,6 +172,7 @@ if (user?.getImageURl() != null) {
         hashmap.put("sender", sender)
         hashmap.put("receiver", receiver)
         hashmap.put("message", message)
+        hashmap.put("seen", false)
         ref.child("Chats").push().setValue(hashmap)
 
 
@@ -228,6 +254,7 @@ if (user?.getImageURl() != null) {
 
     override fun onPause() {
         super.onPause()
+        dbReference.removeEventListener(seen)
         status("offline")
     }
 
