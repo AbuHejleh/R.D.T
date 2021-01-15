@@ -138,6 +138,30 @@ if (user?.getImageURl() != null) {
             })
 
         }
+        seenMessages(userid)
+
+    }
+    fun seenMessages(string :String){
+        var dbReference = FirebaseDatabase.getInstance().getReference("Chats")
+        seen = dbReference.addValueEventListener(object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (snap: DataSnapshot in snapshot.children) {
+                    var chat :chat = snap.getValue(chat::class.java)!!
+                    if (chat.getReceiver().equals(fbUser?.uid) && chat.getSender().equals(string)){
+                        val hashmap: HashMap<String, Any> = HashMap<String, Any>()
+                        hashmap.put("seen", true)
+                        snap.ref.updateChildren(hashmap)
+
+
+                    }
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
 
     }
 
@@ -147,6 +171,7 @@ if (user?.getImageURl() != null) {
         hashmap.put("sender", sender)
         hashmap.put("receiver", receiver)
         hashmap.put("message", message)
+        hashmap.put("seen", false)
         ref.child("Chats").push().setValue(hashmap)
 
 
@@ -174,6 +199,7 @@ if (user?.getImageURl() != null) {
 
 
     }
+
     private fun readMessages(myid:String , userid :String , imageurl :String) {
         Chat_list = ArrayList()
         Log.d("finding", "in the read messages")
@@ -228,6 +254,7 @@ if (user?.getImageURl() != null) {
 
     override fun onPause() {
         super.onPause()
+        dbReference.removeEventListener(seen)
         status("offline")
     }
 

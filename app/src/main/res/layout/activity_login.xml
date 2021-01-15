@@ -11,7 +11,10 @@
         android:id="@+id/toolbar"
         layout="@layout/bar_layout" />
 
-
+<!--    <ScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_centerInParent="true">-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -74,11 +77,13 @@
             android:layout_height="wrap_content"
             android:text="Forget Password ... ?"
             android:layout_marginTop="10dp"
-            android:textColor="#005A65"
+            android:textSize="12dp"
+            android:textStyle="bold"
+            android:textColor="#3E3A36"
             android:id="@+id/forgot_password"
             />
 
 
     </LinearLayout>
-
+<!--    </ScrollView>-->
 </RelativeLayout>

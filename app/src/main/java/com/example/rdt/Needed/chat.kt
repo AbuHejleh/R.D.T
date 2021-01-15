@@ -4,12 +4,14 @@ class chat {
     private  var  sender: String? = null
     private var  receiver: String? = null
     private  var  message: String? = null
+    private  var seen : Boolean? =null
 
 
     constructor(sender: String , receiver: String , message: String ) {
         this.sender = sender
         this.receiver = receiver
         this.message = message
+        this.seen =seen
 
     }
     constructor(){}
@@ -39,4 +41,13 @@ class chat {
     public  fun  getMessage(): String? {
         return message
     }
+
+    public fun setSeen(seen : Boolean) {
+        this.seen = seen
+
+    }
+    public  fun  getSeen(): Boolean? {
+        return seen
+    }
+
 }

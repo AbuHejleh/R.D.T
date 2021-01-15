@@ -37,6 +37,7 @@ class MessageAdapter: RecyclerView.Adapter<MessageAdapter.ViewHolder> {
     public class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var show_message: TextView = itemView.findViewById(R.id.show_message)
         var profile_image: ImageView = itemView.findViewById(R.id.profile_image)
+        var seen: TextView = itemView.findViewById(R.id.seen)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageAdapter.ViewHolder {
@@ -62,6 +63,19 @@ class MessageAdapter: RecyclerView.Adapter<MessageAdapter.ViewHolder> {
             Glide.with(mContext).load(imagurl).into(holder.profile_image)
             Log.d("pic " , " updated ")
         }
+        if (position == mChat.size-1){
+            if ( chat.getSeen()!=null && chat.getSeen()!! ){
+                holder.seen.text= "Seen"
+            }else{
+                holder.seen.text= "Delivered"
+
+
+            }
+        } else{
+            holder.seen.visibility =View.GONE
+        }
+
+
 
 
     }

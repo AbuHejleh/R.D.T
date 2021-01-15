@@ -7,8 +7,20 @@
     tools:context=".StartActivity"
     android:gravity="center"
     android:background="@android:color/holo_orange_dark"
-    android:padding="18dp">
-    <TextView
+    android:padding="10dp">
+
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerInParent="true">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:padding="20dp">
+        <TextView
+            android:layout_alignParentTop="true"
         android:id="@+id/RDT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,8 +49,9 @@ android:id="@+id/Registration"
         android:layout_below="@id/login"
         android:background="@drawable/rounded_corners"
         android:layout_marginTop="10dp"
+     android:layout_marginBottom="10dp"
 
         android:text="Registration"/>
-
-
+    </RelativeLayout>
+</ScrollView>
 </RelativeLayout>

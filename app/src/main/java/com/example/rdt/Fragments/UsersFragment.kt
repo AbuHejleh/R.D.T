@@ -90,8 +90,9 @@ class UsersFragment : Fragment() {
                         mUser.add(user)
                     }
                 }
+                if (context != null) {
                 userAdapter = UserAdapter(context!!, mUser, false)
-                recyclerView.adapter = userAdapter
+                recyclerView.adapter = userAdapter}
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -124,6 +125,7 @@ class UsersFragment : Fragment() {
 
 
                     if (!user.getId().equals(firebaseUsers.uid)) {
+                     
                         mUser.add(user)
 
                     }
